@@ -126,13 +126,11 @@ const userSchema = new mongoose.Schema({
 // which allow doing something before and after calling a function
 // These are inbuilt in mongoose
 // MIDDLE WARE
-userSchema.pre('save', async function (next) {
-    //This keyword works only with standard functions (and not with arrow functions)
+userSchema.pre('save', async function (next) {  //This keyword works only with standard functions (and not with arrow functions)
     //Therefore we use the keyword function here
     //This function will run before save function
 
-    if (this.isModified('password')) {
-        //Checking this condition since this needs to be checked only at time of signin and not other times when we use save function
+    if (this.isModified('password')) {       //Checking this condition since this needs to be checked only at time of signin and not other times when we use save function
         try {
             this.password = await bcrypt.hash(this.password, 12)
             this.cpassword = await bcrypt.hash(this.password, 12)
@@ -143,8 +141,7 @@ userSchema.pre('save', async function (next) {
     next()      //This will now allow save function to run
 })
 
-userSchema.methods.generateAuthToken = async function () {
-    //methods => This will make an instance function for userSchema
+userSchema.methods.generateAuthToken = async function () {      //methods => This will make an instance function for userSchema
     //name of instance function is generateAuthToken
     try {
         let token = jwt.sign({ _id: this._id }, process.env.SECRET_KEY)
@@ -158,8 +155,7 @@ userSchema.methods.generateAuthToken = async function () {
 
 userSchema.methods.addMessage = async function (name, email, phone, message) {
     try {
-        this.messages = this.messages.concat({ name, email, phone, message })
-        //name: name and so on
+        this.messages = this.messages.concat({ name, email, phone, message })    //name: name and so on
         await this.save()
         return this.messages
     } catch (error) {
@@ -202,7 +198,18 @@ userSchema.methods.deleteTodo = async function (todo) {
 userSchema.methods.addClass = async function (info) {
     try {
         const { Maths, Physics, Chemistry, date } = info
-        this.classes.push({ Maths, Physics, Chemistry, date })
+        const lastClass = this.classes[this.classes.length - 1]
+        if (lastClass.date === date) {
+            if (Maths)
+                lastClass.Maths = true
+            if (Chemistry)
+                lastClass.Chemistry = true
+            if (Physics)
+                lastClass.Physics = true
+            this.classes[this.classes.length - 1] = lastClass
+        }
+        else
+            this.classes.push({ Maths, Physics, Chemistry, date })
         await this.save()
     } catch (error) {
         console.log(error)

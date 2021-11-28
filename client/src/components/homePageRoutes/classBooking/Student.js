@@ -44,6 +44,9 @@ const Student = () => {
 
     let newDate, day;
     var dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    // var monthNames = ["January", "February", "March", "April", "May", "June",
+    // "July", "August", "September", "October", "November", "December"];
+    // let month
     const setDate = () => {
         newDate = new Date();
         day = dayNames[newDate.getDay()];
@@ -130,7 +133,8 @@ const Student = () => {
                 },
                 body: JSON.stringify(info)
             })
-
+            //Put some exception handling
+            //Store class preferences in a separate database too
             sethandleSubmitPreference(false);
         }
         else {
@@ -187,18 +191,15 @@ const Student = () => {
     const [bookedChemistry, setBookedChemistry] = useState(false)
 
     const handleStartMaths = () => {
-        setDisableMaths(false); // to enable red button of cancel now
-        // setMath(true) // for that particular student set true as he clicked on book now 
+        setDisableMaths(false)
     }
 
     const handleStartPhysics = () => {
-        setDisablePhysics(false);
-        // setPhysics(true)
+        setDisablePhysics(false)
     }
 
     const handleStartChemistry = () => {
         setDisableChemistry(false);
-        // setChemistry(true);
     }
 
     const setClasses = (data) => {
@@ -257,6 +258,7 @@ const Student = () => {
                     </Alert>
                     {setDate()}
 
+                    {/* <marquee>Book now Limited seats only due to Covid___________________________Wear Mask___________________________Use Sanitizer</marquee> */}
                     {/* eslint-disable-next-line */}
                     <marquee behavior="scroll" direction="left">
                         <span style={{ marginLeft: '2in', color: '#483434' }}>Book now Limited seats only due to Covid</span>
