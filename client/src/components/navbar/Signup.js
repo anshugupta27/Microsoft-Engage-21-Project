@@ -11,7 +11,6 @@ const Signup = () => {
     let name, value
 
     const handleInputs = (e) => {
-        // console.log(e)
         name = e.target.name
         value = e.target.value
 
@@ -28,9 +27,7 @@ const Signup = () => {
             return;
         }
 
-        const res = await fetch("/register", {      //We have mentioned our server's port in package.json as proxy
-            //If we will write it directly here like https://localhost:5000/register
-            //then we will have CORS error which will not let us go and fetch it from external port
+        const res = await fetch("/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -71,21 +68,16 @@ const Signup = () => {
                                     <div className="mb-md-5 mt-md-4 pb-5">
 
                                         <h2 className="fw-bold mb-4 text-uppercase">Register</h2>
-                                        {/* <p className="text-white-50 mb-5">Please Register Yourself</p> */}
-
-                                        {/* <form method="POST" className="register-form" id="register-form"> */}
 
 
                                         {/* name */}
                                         <div className="form-group form-outline form-white mb-4">
                                             <label className="form-label" htmlFor="typeEmailX">Name</label>
                                             <label htmlFor="name">
-                                                {/* <i className="zmdi zmdi-account material-icons-name"></i> */}
                                             </label>{" "}
                                             <input type="text" name="name" id="name" autoComplete="off" value={user.name} onChange={handleInputs}
                                                 placeholder="Your Name"
                                                 className="form-control form-control-md"
-                                            // style={{ marginTop:'1rem' , width:'15rem', height:'2rem'}}
                                             />
 
                                         </div>
@@ -95,12 +87,10 @@ const Signup = () => {
                                         <div className="form-group form-outline form-white mb-4">
                                             <label className="form-label" htmlFor="typeEmailX">Email</label>
                                             <label htmlFor="email">
-                                                {/* <i className="zmdi zmdi-email material-icons-name"></i> */}
                                             </label>{" "}
                                             <input type="email" name="email" id="email" autoComplete="off" value={user.email} onChange={handleInputs}
                                                 placeholder="Your Email"
                                                 className="form-control form-control-md"
-                                            // style={{ marginTop:'1rem' , width:'15rem', height:'2rem'}}
                                             />
 
                                         </div>
@@ -110,12 +100,10 @@ const Signup = () => {
                                         <div className="form-group form-outline form-white mb-4">
                                             <label className="form-label" htmlFor="typeEmailX">Phone Number</label>
                                             <label htmlFor="phone">
-                                                {/* <i className="zmdi zmdi-phone-in-talk material-icons-name"></i> */}
                                             </label>{" "}
                                             <input type="number" name="phone" id="phone" autoComplete="off" value={user.phone} onChange={handleInputs}
                                                 placeholder="Your Phone Number"
                                                 className="form-control form-control-md"
-                                            // style={{ marginTop:'1rem' , width:'15rem', height:'2rem'}}
                                             />
                                         </div>
                                         {/* phone number ends */}
@@ -124,12 +112,10 @@ const Signup = () => {
                                         <div className="form-group form-outline form-white mb-4">
                                             <label className="form-label" htmlFor="typeEmailX">Profession</label>
                                             <label htmlFor="work">
-                                                {/* <i className="zmdi zmdi-slideshow material-icons-name"></i> */}
                                             </label>{" "}
                                             <input type="text" name="work" id="work" autoComplete="off" value={user.work} onChange={handleInputs}
                                                 placeholder="Your Profession"
                                                 className="form-control form-control-md"
-                                            //  style={{ marginTop:'1rem' , width:'15rem', height:'2rem'}}
                                             />
                                         </div>
                                         {/* profession end */}
@@ -138,12 +124,10 @@ const Signup = () => {
                                         <div className="form-group form-outline form-white mb-4">
                                             <label className="form-label" htmlFor="typeEmailX">Choose Password</label>
                                             <label htmlFor="password">
-                                                {/* <i className="zmdi zmdi-lock material-icons-name"></i> */}
                                             </label>{" "}
                                             <input type="password" name="password" id="password" autoComplete="off" value={user.password} onChange={handleInputs}
                                                 placeholder="Your Password"
                                                 className="form-control form-control-md"
-                                            // style={{ marginTop:'1rem' , width:'15rem', height:'2rem'}}
                                             />
                                         </div>
                                         {/* password end */}
@@ -153,12 +137,10 @@ const Signup = () => {
                                         <div className="form-group form-outline form-white mb-4">
                                             <label className="form-label" htmlFor="typeEmailX">Confirm Password</label>
                                             <label htmlFor="cpassword">
-                                                {/* <i className="zmdi zmdi-lock material-icons-name"></i> */}
                                             </label>{" "}
                                             <input type="password" name="cpassword" id="cpassword" autoComplete="off" value={user.cpassword} onChange={handleInputs}
                                                 placeholder="Confirm Your Password"
                                                 className="form-control form-control-md"
-                                            // style={{ marginTop:'1rem' , width:'15rem', height:'2rem'}}
                                             />
                                         </div>
                                         {/* confirm pass end */}
@@ -170,12 +152,12 @@ const Signup = () => {
                                             <NavLink to="/login" className="signup-image-link">Log In</NavLink>
 
                                         </div>
-                                        
+
                                         {/* </form> */}
 
                                     </div>
 
-                                   
+
 
                                 </div>
                             </div>

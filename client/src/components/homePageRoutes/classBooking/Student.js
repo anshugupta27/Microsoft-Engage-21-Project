@@ -44,16 +44,13 @@ const Student = () => {
 
     let newDate, day;
     var dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    // var monthNames = ["January", "February", "March", "April", "May", "June",
-    // "July", "August", "September", "October", "November", "December"];
-    // let month
     const setDate = () => {
         newDate = new Date();
         day = dayNames[newDate.getDay()];
         // month = monthNames[newDate.getMonth()] ;
         return <Alert width='2rem' variant='primary'>
             Now book your class for <b> {day} (tomorrow) </b> doubt session
-            </Alert>
+        </Alert>
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,8 +130,7 @@ const Student = () => {
                 },
                 body: JSON.stringify(info)
             })
-            //Put some exception handling
-            //Store class preferences in a separate database too
+
             sethandleSubmitPreference(false);
         }
         else {
@@ -185,26 +181,42 @@ const Student = () => {
         const myDate = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear()
         setTodaysDate(myDate)
     }
-
+    //////////////////////////////////////////////////////////////////////////////////
     const [bookedMaths, setBookedMaths] = useState(false)
     const [bookedPhysics, setBookedPhysics] = useState(false)
     const [bookedChemistry, setBookedChemistry] = useState(false)
+
+    const handleStartMaths = () => {
+        setDisableMaths(false); // to enable red button of cancel now
+        // setMath(true) // for that particular student set true as he clicked on book now 
+    }
+
+    const handleStartPhysics = () => {
+        setDisablePhysics(false);
+        // setPhysics(true)
+    }
+
+    const handleStartChemistry = () => {
+        setDisableChemistry(false);
+        // setChemistry(true);
+    }
+
     const setClasses = (data) => {
-        if(data.Maths){
-            handleMaths()
+        if (data.Maths) {
+            handleStartMaths()
             setBookedMaths(true)
         }
-        if(data.Physics){
-            handlePhysics()
+        if (data.Physics) {
+            handleStartPhysics()
             setBookedPhysics(true)
         }
-        if(data.Chemistry){
-            handleChemistry()
+        if (data.Chemistry) {
+            handleStartChemistry()
             setBookedChemistry(true)
         }
     }
 
-    const getClasses = async() => {
+    const getClasses = async () => {
         try {
             const res = await fetch('/getClasses', {
                 method: "GET",
@@ -213,7 +225,7 @@ const Student = () => {
                 }
             })
             const data = await res.json()
-            if(data.date === todaysDate)
+            if (data.date === todaysDate)
                 setClasses(data)
         } catch (err) {
             console.log(err)
@@ -242,10 +254,9 @@ const Student = () => {
                 <div>
                     <Alert width='2rem' variant='warning'>
                         *Note : Everyday at 12 AM fresh booking will start
-                        </Alert>
+                    </Alert>
                     {setDate()}
 
-                    {/* <marquee>Book now Limited seats only due to Covid___________________________Wear Mask___________________________Use Sanitizer</marquee> */}
                     {/* eslint-disable-next-line */}
                     <marquee behavior="scroll" direction="left">
                         <span style={{ marginLeft: '2in', color: '#483434' }}>Book now Limited seats only due to Covid</span>
@@ -299,7 +310,7 @@ const Student = () => {
                                     </Card.Body>
                                     <Card.Header style={{ backgroundColor: '#EEEEEE' }}>
                                         {/* eslint-disable-next-line */}
-                                        <b><center>{bookedMaths?<a style={{ color: 'blue' }}>YOU ALREADY BOOKED</a> : (MathsOccupiedSeats >= MathsTotalSeats ? <a style={{ color: 'red' }}>FULL</a> : <a style={{ color: 'green' }}>AVAILABLE</a>)}</center></b>
+                                        <b><center>{bookedMaths ? <a style={{ color: 'blue' }}>YOU ALREADY BOOKED</a> : (MathsOccupiedSeats >= MathsTotalSeats ? <a style={{ color: 'red' }}>FULL</a> : <a style={{ color: 'green' }}>AVAILABLE</a>)}</center></b>
                                     </Card.Header>
                                 </Card>
                             </div>
@@ -346,7 +357,7 @@ const Student = () => {
                                     </Card.Body>
                                     <Card.Header style={{ backgroundColor: '#EEEEEE' }}>
                                         {/* eslint-disable-next-line */}
-                                        <b><center>{bookedPhysics?<a style={{ color: 'blue' }}>YOU ALREADY BOOKED</a> : (PhysicsOccupiedSeats >= PhysicsTotalSeats ? <a style={{ color: 'red' }}>FULL</a> : <a style={{ color: 'green' }}>AVAILABLE</a>)}</center></b>
+                                        <b><center>{bookedPhysics ? <a style={{ color: 'blue' }}>YOU ALREADY BOOKED</a> : (PhysicsOccupiedSeats >= PhysicsTotalSeats ? <a style={{ color: 'red' }}>FULL</a> : <a style={{ color: 'green' }}>AVAILABLE</a>)}</center></b>
                                     </Card.Header>
 
                                 </Card>
@@ -394,7 +405,7 @@ const Student = () => {
                                     </Card.Body>
                                     <Card.Header style={{ backgroundColor: '#EEEEEE' }}>
                                         {/* eslint-disable-next-line */}
-                                        <b><center>{bookedChemistry?<a style={{ color: 'blue' }}>YOU ALREADY BOOKED</a> : (ChemistryOccupiedSeats === ChemistryTotalSeats ? <a style={{ color: 'red' }}>FULL</a> : <a style={{ color: 'green' }}>AVAILABLE</a>)}</center></b>
+                                        <b><center>{bookedChemistry ? <a style={{ color: 'blue' }}>YOU ALREADY BOOKED</a> : (ChemistryOccupiedSeats === ChemistryTotalSeats ? <a style={{ color: 'red' }}>FULL</a> : <a style={{ color: 'green' }}>AVAILABLE</a>)}</center></b>
                                     </Card.Header>
 
                                 </Card>

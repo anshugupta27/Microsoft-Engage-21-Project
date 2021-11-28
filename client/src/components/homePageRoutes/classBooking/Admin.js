@@ -4,17 +4,15 @@ import "react-datepicker/dist/react-datepicker.css"
 import Card from 'react-bootstrap/Card'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Grid from "@material-ui/core/Grid"
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Admin = () => {
     const navigate = useNavigate()
 
-    const[MathsTotalSeats, setMathsTotalSeats] = useState(0) 
-    const[PhysicsTotalSeats, setPhysicsTotalSeats] = useState(0) 
-    const[ChemistryTotalSeats, setChemistryTotalSeats] = useState(0) 
-    
-    // const [userName, setUserName] = useState("")
-    // const [email, setEmail] = useState("")
+    const [MathsTotalSeats, setMathsTotalSeats] = useState(0)
+    const [PhysicsTotalSeats, setPhysicsTotalSeats] = useState(0)
+    const [ChemistryTotalSeats, setChemistryTotalSeats] = useState(0)
+
 
     const [mathsStudentsArray, setMathsStudentsArray] = useState([]);
     const [physicsStudentsArray, setPhysicsStudentsArray] = useState([]);
@@ -29,9 +27,9 @@ const Admin = () => {
                 }
             })
             const data = await res.json()
-            setMathsTotalSeats ( data.maths) ;
-            setPhysicsTotalSeats (data.physics) ;
-            setChemistryTotalSeats(data.chemistry) ;
+            setMathsTotalSeats(data.maths);
+            setPhysicsTotalSeats(data.physics);
+            setChemistryTotalSeats(data.chemistry);
         } catch (err) {
             console.log(err)
         }
@@ -47,41 +45,35 @@ const Admin = () => {
             })
             const data = await res.json()
             var studentM = [], studentP = [], studentC = [];
-                for (var i = 0; i < data.length; i++) {
-    
-                    if (data[i].subject === "maths") {
-                        studentM.push(data[i].name + " - " + data[i].id)
-                    }
-                    else if (data[i].subject === "physics") {
-                        studentP.push(data[i].name + " - " + data[i].id)
-                    }
-                    else if (data[i].subject === "chemistry") {
-                        studentC.push(data[i].name + " - " + data[i].id)
-                    }
+            for (var i = 0; i < data.length; i++) {
+
+                if (data[i].subject === "maths") {
+                    studentM.push(data[i].name + " - " + data[i].id)
                 }
-                setMathsStudentsArray(studentM)
-                setPhysicsStudentsArray(studentP)
-                setChemistryStudentsArray(studentC)
+                else if (data[i].subject === "physics") {
+                    studentP.push(data[i].name + " - " + data[i].id)
+                }
+                else if (data[i].subject === "chemistry") {
+                    studentC.push(data[i].name + " - " + data[i].id)
+                }
+            }
+            setMathsStudentsArray(studentM)
+            setPhysicsStudentsArray(studentP)
+            setChemistryStudentsArray(studentC)
         } catch (err) {
             console.log(err)
         }
     }
 
-    // const setUserDetails = () => {
-    //     const userName = localStorage.getItem('userName')
-    //     setUserName(userName)
-    //     const email = localStorage.getItem('email')
-    //     setEmail(email)
-    // }
 
-    const changeTotalSeats = async() => {
+    const changeTotalSeats = async () => {
         console.log('changeTotalSeats')
         const total = {
-            maths:MathsTotalSeats,
-            physics:PhysicsTotalSeats,
-            chemistry:ChemistryTotalSeats
+            maths: MathsTotalSeats,
+            physics: PhysicsTotalSeats,
+            chemistry: ChemistryTotalSeats
         }
-        try{
+        try {
             await fetch('/changeTotalSeats', {
                 method: "POST",
                 headers: {
@@ -94,57 +86,56 @@ const Admin = () => {
         } catch {
             console.log('cant change seats')
             alert('Can not change seats')
-        }  
+        }
     }
-    
-        const deleteAllSeats = async() => {
-            console.log("delete clicked")
-            try {
-                const res = await fetch('/deleteAllSeats', {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })
-                const data = await res.json()
-                console.log(data)
-                alert('Cancelled all classes')
-                navigate('/')
-            } catch (err) {
-                console.log(err)
-            }
-        }
 
-        const printStudents = (event) => {
-            if (event.length === 0) {
-                return <h5>EMPTY CLASS :( </h5>
-            }
-            return event.map((item, i) => (
-                <h5 key={i}>{item}</h5>
-            ))
+    const deleteAllSeats = async () => {
+        console.log("delete clicked")
+        try {
+            const res = await fetch('/deleteAllSeats', {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            const data = await res.json()
+            console.log(data)
+            alert('Cancelled all classes')
+            navigate('/')
+        } catch (err) {
+            console.log(err)
         }
+    }
+
+    const printStudents = (event) => {
+        if (event.length === 0) {
+            return <h5>EMPTY CLASS :( </h5>
+        }
+        return event.map((item, i) => (
+            <h5 key={i}>{item}</h5>
+        ))
+    }
 
     useEffect(() => {
-        // setUserDetails()
         getTotalSeats()
         getStudentClassList()
         // eslint-disable-next-line
     }, [])
     return (
         <div>
-            <div style={{ marginLeft: '30rem', marginTop: '2rem'}}>
-                 <Card bg='success' text ='white' style={{width:'10rem', marginLeft:'8rem', marginBottom:'1rem'}}>
-  <Card.Body>Faculty Section</Card.Body>
-</Card>
-                 
-                 <Card bg='light' border="primary" style={{ width: '25rem' }}>
-                 <Card.Header >Modify the Number of Total Seats</Card.Header>
-  <Card.Body>
-  <div style={{margin:'2rem'}}>
-                 Update Maths Seats
-                 
-                              <input
-                               style={{width:'10rem'}}
+            <div style={{ marginLeft: '30rem', marginTop: '2rem' }}>
+                <Card bg='success' text='white' style={{ width: '10rem', marginLeft: '8rem', marginBottom: '1rem' }}>
+                    <Card.Body>Faculty Section</Card.Body>
+                </Card>
+
+                <Card bg='light' border="primary" style={{ width: '25rem' }}>
+                    <Card.Header >Modify the Number of Total Seats</Card.Header>
+                    <Card.Body>
+                        <div style={{ margin: '2rem' }}>
+                            Update Maths Seats
+
+                            <input
+                                style={{ width: '10rem' }}
                                 type="text"
                                 placeholder="Set Maths Seats"
                                 className="form-control"
@@ -155,12 +146,12 @@ const Admin = () => {
                                     setMathsTotalSeats(event.target.value);
                                 }}
                             />
-                            </div>
-                           
-                            <div style={{margin:'2rem'}}>
+                        </div>
+
+                        <div style={{ margin: '2rem' }}>
                             Update Physics Seats
-                               <input
-                               style={{width:'10rem'}}
+                            <input
+                                style={{ width: '10rem' }}
                                 type="text"
                                 placeholder="Set Physics Seats"
                                 className="form-control"
@@ -171,12 +162,12 @@ const Admin = () => {
                                     setPhysicsTotalSeats(event.target.value);
                                 }}
                             />
-                            </div>
-                            
-                            <div style={{margin:'2rem'}}>
+                        </div>
+
+                        <div style={{ margin: '2rem' }}>
                             Update Chemistry Seats
-                               <input
-                               style={{width:'10rem'}}
+                            <input
+                                style={{ width: '10rem' }}
                                 type="text"
                                 placeholder="Set Chemistry Seats"
                                 className="form-control"
@@ -187,83 +178,80 @@ const Admin = () => {
                                     setChemistryTotalSeats(event.target.value);
                                 }}
                             />
-                            </div>
+                        </div>
 
-                            <div style={{ marginLeft: '2rem'}}>
-                            <Button 
-                            onClick={changeTotalSeats}
-                            style={{ width: '5rem'}}>set</Button>
+                        <div style={{ marginLeft: '2rem' }}>
+                            <Button
+                                onClick={changeTotalSeats}
+                                style={{ width: '5rem' }}>set</Button>
 
-                             <Button variant="danger"
-                            type="submit"
-                            onClick={deleteAllSeats}
-                            style={{ width: '5rem'}}>Delete</Button>
-                            </div>
-                           
-
+                            <Button variant="danger"
+                                type="submit"
+                                onClick={deleteAllSeats}
+                                style={{ width: '5rem' }}>Delete</Button>
+                        </div>
 
 
-              
-  </Card.Body>
-</Card>
-                  
-</div>
-                
-                
-                <Grid container spacing={9}>
-                            <Grid item md={3}>
-                                <Card style={{ width: '15rem', marginLeft: '10.5rem', marginTop: '2rem' }}>
-                                    <Card.Header style={{ backgroundColor: '#FDD2BF' }}><center><b> Maths Class List</b><br/>Total Seats : {MathsTotalSeats} </center></Card.Header>
-                                    <Card.Body>
-                                        <blockquote className="blockquote mb-0">
-    
-                                            <div style={{ overflow: 'scroll', height: '9rem' }} >
-                                                <center>{printStudents(mathsStudentsArray)}</center>
-    
-                                            </div>
-    
-                                        </blockquote>
-                                    </Card.Body>
-    
-                                </Card>
-                            </Grid>
-                            {/*  */}
-                            <Grid item md={3}>
-                                <Card style={{ width: '15rem', marginLeft: '10.5rem', marginTop: '2rem' }}>
-                                    <Card.Header style={{ backgroundColor: '#FDD2BF' }}><center><b> Physics Class List</b><br/>Total Seats : {PhysicsTotalSeats} </center></Card.Header>
-                                    <Card.Body>
-                                        <blockquote className="blockquote mb-0">
-    
-                                            <div style={{ overflow: 'scroll', height: '9rem' }} >
-                                                <center>{printStudents(physicsStudentsArray)}</center>
-    
-                                            </div>
-    
-                                        </blockquote>
-                                    </Card.Body>
-    
-                                </Card>
-                                {/*  */}
-                            </Grid>
-                            <Grid item md={3}>
-    
-                                <Card style={{ width: '15rem', marginLeft: '10.5rem', marginTop: '2rem' }}>
-                                    <Card.Header style={{ backgroundColor: '#FDD2BF' }}><center><b> Chemistry Class List</b><br/>Total Seats : {ChemistryTotalSeats} </center></Card.Header>
-                                    <Card.Body>
-                                        <blockquote className="blockquote mb-0">
-    
-                                            <div style={{ overflow: 'scroll', height: '9rem' }} >
-                                                <center>{printStudents(chemistryStudentsArray)}</center>
-    
-                                            </div>
-    
-                                        </blockquote>
-                                    </Card.Body>
-    
-                                </Card>
-                            </Grid>
-    
-                        </Grid>
+                    </Card.Body>
+                </Card>
+
+            </div>
+
+
+            <Grid container spacing={9}>
+                <Grid item md={3}>
+                    <Card style={{ width: '15rem', marginLeft: '10.5rem', marginTop: '2rem' }}>
+                        <Card.Header style={{ backgroundColor: '#FDD2BF' }}><center><b> Maths Class List</b><br />Total Seats : {MathsTotalSeats} </center></Card.Header>
+                        <Card.Body>
+                            <blockquote className="blockquote mb-0">
+
+                                <div style={{ overflow: 'scroll', height: '9rem' }} >
+                                    <center>{printStudents(mathsStudentsArray)}</center>
+
+                                </div>
+
+                            </blockquote>
+                        </Card.Body>
+
+                    </Card>
+                </Grid>
+
+                <Grid item md={3}>
+                    <Card style={{ width: '15rem', marginLeft: '10.5rem', marginTop: '2rem' }}>
+                        <Card.Header style={{ backgroundColor: '#FDD2BF' }}><center><b> Physics Class List</b><br />Total Seats : {PhysicsTotalSeats} </center></Card.Header>
+                        <Card.Body>
+                            <blockquote className="blockquote mb-0">
+
+                                <div style={{ overflow: 'scroll', height: '9rem' }} >
+                                    <center>{printStudents(physicsStudentsArray)}</center>
+
+                                </div>
+
+                            </blockquote>
+                        </Card.Body>
+
+                    </Card>
+
+                </Grid>
+                <Grid item md={3}>
+
+                    <Card style={{ width: '15rem', marginLeft: '10.5rem', marginTop: '2rem' }}>
+                        <Card.Header style={{ backgroundColor: '#FDD2BF' }}><center><b> Chemistry Class List</b><br />Total Seats : {ChemistryTotalSeats} </center></Card.Header>
+                        <Card.Body>
+                            <blockquote className="blockquote mb-0">
+
+                                <div style={{ overflow: 'scroll', height: '9rem' }} >
+                                    <center>{printStudents(chemistryStudentsArray)}</center>
+
+                                </div>
+
+                            </blockquote>
+                        </Card.Body>
+
+                    </Card>
+                </Grid>
+
+            </Grid>
         </div>
     )
 

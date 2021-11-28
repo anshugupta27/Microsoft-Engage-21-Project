@@ -22,18 +22,18 @@ const studentClassListSchema = new mongoose.Schema({
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 // CLASS BOOKING
 
-studentClassListSchema.statics.addClass = async function(info, id, name) {
+studentClassListSchema.statics.addClass = async function (info, id, name) {
     try {
         const date = info.date
-        if(info.Maths){
+        if (info.Maths) {
             const maths = new StudentClassList({ name, id, subject: "maths", date })
             await maths.save()
         }
-        if(info.Physics){
+        if (info.Physics) {
             const physics = new StudentClassList({ name, id, subject: "physics", date })
             await physics.save()
         }
-        if(info.Chemistry){
+        if (info.Chemistry) {
             const chemistry = new StudentClassList({ name, id, subject: "chemistry", date })
             await chemistry.save()
         }
@@ -45,41 +45,31 @@ studentClassListSchema.statics.addClass = async function(info, id, name) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  DATA RETREIVEL
 
-studentClassListSchema.statics.getStudentClassList = async function() {
+studentClassListSchema.statics.getStudentClassList = async function () {
     try {
-            const today = new Date()
-            const date = today.getDate() + "-" + today.getMonth() + "-" + today.getFullYear()
-            const list = StudentClassList.find({date})
-            return list
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-studentClassListSchema.statics.deleteAllSeats = async function() {
-    try {
-//  SEND MESSAGE TO ALL USERS IN STUDENT CLASS LIST SO THAT THEY KNOW THAT THE CLASS HAS TO BOOKED AGAIN
-//  OR HAS BEEN CANCELLED
-//  It can be easily done by adding inbox in userSchema and adding a message there for every entry in studentClassList
-//  as we have user id of all users and send them subject name and date of cancel
         const today = new Date()
         const date = today.getDate() + "-" + today.getMonth() + "-" + today.getFullYear()
-        await StudentClassList.deleteMany({date})
+        const list = StudentClassList.find({ date })
+        return list
     } catch (error) {
         console.log(error)
     }
 }
 
-// studentClassListSchema.statics.getOccupiedSeats = async function() {
-//     try {
-//             const maths = await this.findOne({ subject: "maths"})
-//             const physics = await this.findOne({ subject: "physics"})
-//             const chemistry = await this.findOne({ subject: "chemistry"})
-//             return {maths: maths.occupiedSeats, physics: physics.occupiedSeats, chemistry: chemistry.occupiedSeats}
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
+studentClassListSchema.statics.deleteAllSeats = async function () {
+    try {
+        //  SEND MESSAGE TO ALL USERS IN STUDENT CLASS LIST SO THAT THEY KNOW THAT THE CLASS HAS TO BOOKED AGAIN
+        //  OR HAS BEEN CANCELLED
+        //  It can be easily done by adding inbox in userSchema and adding a message there for every entry in studentClassList
+        //  as we have user id of all users and send them subject name and date of cancel
+        const today = new Date()
+        const date = today.getDate() + "-" + today.getMonth() + "-" + today.getFullYear()
+        await StudentClassList.deleteMany({ date })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

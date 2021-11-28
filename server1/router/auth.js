@@ -48,7 +48,7 @@ router.get('/contact', (req, res) => {
 
 //     const { name, email, phone, work, password, cpassword } = req.body
 //                                         //Object destruction -> Helps to name different parts of json file
-    
+
 //     if( !name|| !email|| !phone|| !work|| !password|| !cpassword)
 //         // return res.json({ err: "fill everything"})
 //         return res.status(422).json({ err: "Please fill all fields"})      //Returning with status code
@@ -75,29 +75,29 @@ router.get('/contact', (req, res) => {
 //USING ASYNC-AWAIT
 
 router.post('/register', async (req, res) => {      //If there are promises in a function, then make it async
-        const { name, email, phone, work, password, cpassword } = req.body
-        
-        if( !name|| !email|| !phone|| !work|| !password|| !cpassword)
-            return res.status(422).json({ err: "Please fill all fields"})
+    const { name, email, phone, work, password, cpassword } = req.body
 
-        try{        //Promises should be kept in try block
-            const userExist = await User.findOne({ email: email })      //Use await before promise
-            if(userExist) {
-                return res.status(422).json({ error: "Email already exists"})
-            } else if(password != cpassword) {
-                return res.status(422).json({ error: "Passwords do not match"})
-            } else {
-                const user = new User({ name, email, phone, work, password, cpassword })
+    if (!name || !email || !phone || !work || !password || !cpassword)
+        return res.status(422).json({ err: "Please fill all fields" })
 
-                //Before save function, we have set a middleware to run in userSchema.js
-                await user.save()
-                res.status(201).json({ message: "User Registered successfully" })
-            }
-            
-        } catch (err) {
-            console.log(err)
+    try {        //Promises should be kept in try block
+        const userExist = await User.findOne({ email: email })      //Use await before promise
+        if (userExist) {
+            return res.status(422).json({ error: "Email already exists" })
+        } else if (password != cpassword) {
+            return res.status(422).json({ error: "Passwords do not match" })
+        } else {
+            const user = new User({ name, email, phone, work, password, cpassword })
+
+            //Before save function, we have set a middleware to run in userSchema.js
+            await user.save()
+            res.status(201).json({ message: "User Registered successfully" })
         }
-    })
+
+    } catch (err) {
+        console.log(err)
+    }
+})
 
 /********************************************************************************************************************** */
 
@@ -106,8 +106,8 @@ router.post('/signin', async (req, res) => {
         console.log('login request')
         let token   //Defining it here so that we can use it anywhere
         const { email, password } = req.body
-        if( !email || !password) {
-            return res.json({error: "Please fill all fields"})
+        if (!email || !password) {
+            return res.json({ error: "Please fill all fields" })
         }
 
         const userLogin = await User.findOne({ email: email })
@@ -115,7 +115,7 @@ router.post('/signin', async (req, res) => {
         //For security reasons, never tell a user that password is wrong or email is wrong
         //Just tell them that the credentials do not match, it makes hacking more difficult
 
-        if(userLogin) {
+        if (userLogin) {
             const isMatch = await bcrypt.compare(password, userLogin.password)
             token = await userLogin.generateAuthToken()
             const oneMonth = 25892000000    //milliseconds
@@ -123,13 +123,13 @@ router.post('/signin', async (req, res) => {
                 expires: new Date(Date.now() + oneMonth),
                 httpOnly: true
             })
-            if(!isMatch) {
-                res.json({ error: "Invalid credentials"})
+            if (!isMatch) {
+                res.json({ error: "Invalid credentials" })
             } else {
-                res.status(201).json({ message: "User signin success"})
+                res.status(201).json({ message: "User signin success" })
             }
         } else {
-            res.json({ error: "Invalid credentials"})
+            res.json({ error: "Invalid credentials" })
         }
     } catch (err) {
         console.log(err)
@@ -147,19 +147,19 @@ router.get('/getdata', authenticate, (req, res) => {
 
 router.post('/contact', authenticate, async (req, res) => {
     try {
-        
+
         const { name, email, phone, message } = req.body
 
-        if( !name || !email || !phone || !message ) {
+        if (!name || !email || !phone || !message) {
             console.log("all fields not filled in contact form")
-            return res.status(422).json({ error: "please fill all fields in the contact form"})
+            return res.status(422).json({ error: "please fill all fields in the contact form" })
         }
 
-        const userContact = await User.findOne({_id: req.userID })      //here req has all details like _id because we have stored it during authentication
+        const userContact = await User.findOne({ _id: req.userID })      //here req has all details like _id because we have stored it during authentication
 
-        if(userContact) {
+        if (userContact) {
             const userMessage = await userContact.addMessage(name, email, phone, message)
-            res.status(201).json({ message: "Message sent successfully"})
+            res.status(201).json({ message: "Message sent successfully" })
         }
 
     } catch (error) {
@@ -169,7 +169,7 @@ router.post('/contact', authenticate, async (req, res) => {
 
 router.get('/logout', (req, res) => {
     console.log('logout')
-    res.clearCookie('jwtoken', {path: '/'})
+    res.clearCookie('jwtoken', { path: '/' })
     res.status(200).send('User logout')
 })
 
@@ -180,11 +180,11 @@ router.get('/logout', (req, res) => {
 router.post('/todo/add', authenticate, async (req, res) => {
     try {
         const { text } = req.body
-        const currentUser = await User.findOne({_id: req.userID })      //here req has all details like _id because we have stored it during authentication
+        const currentUser = await User.findOne({ _id: req.userID })      //here req has all details like _id because we have stored it during authentication
 
-        if(currentUser) {
+        if (currentUser) {
             const todoList = await currentUser.addTodo(text)
-            res.status(201).json({ message: "Todo added successfully"})
+            res.status(201).json({ message: "Todo added successfully" })
         }
 
     } catch (error) {
@@ -195,9 +195,9 @@ router.post('/todo/add', authenticate, async (req, res) => {
 router.post('/todo/delete', authenticate, async (req, res) => {
     try {
         const todo = req.body
-        const currentUser = await User.findOne({_id: req.userID })      //here req has all details like _id because we have stored it during authentication
+        const currentUser = await User.findOne({ _id: req.userID })      //here req has all details like _id because we have stored it during authentication
 
-        if(currentUser) {
+        if (currentUser) {
             const todoList = await currentUser.deleteTodo(todo)
             res.status(201).json(todoList)
         }
@@ -212,12 +212,12 @@ router.post('/todo/delete', authenticate, async (req, res) => {
 router.post('/addClass', authenticate, async (req, res) => {
     try {
         const info = req.body
-        const currentUser = await User.findOne({_id: req.userID })
-        if(currentUser) {
+        const currentUser = await User.findOne({ _id: req.userID })
+        if (currentUser) {
             await currentUser.addClass(info)
             await Classes.addSeats(info)
             await StudentClassList.addClass(info, req.userID, req.rootUser.name)
-            res.status(201).json({ message: "Class registration successful"})
+            res.status(201).json({ message: "Class registration successful" })
         }
     } catch (error) {
         console.log(error)
@@ -238,8 +238,8 @@ router.get('/getOccupiedSeats', async (req, res) => {
 
 router.get('/getClasses', authenticate, async (req, res) => {
     try {
-        const currentUser = await User.findOne({_id: req.userID })
-        if(currentUser) {
+        const currentUser = await User.findOne({ _id: req.userID })
+        if (currentUser) {
             const classes = await currentUser.getClasses()
             res.status(201).send(classes)
         }
@@ -256,7 +256,7 @@ router.post('/changeTotalSeats', async (req, res) => {
     try {
         const total = req.body
         await Classes.changeTotalSeats(total)
-        res.json({message: "success"})
+        res.json({ message: "success" })
     } catch (error) {
         console.log(error)
     }
@@ -264,13 +264,13 @@ router.post('/changeTotalSeats', async (req, res) => {
 
 router.get('/deleteAllSeats', async (req, res) => {
     console.log('deleteAllSeats called')
-//  SEND MESSAGE TO ALL USERS IN STUDENT CLASS LIST SO THAT THEY KNOW THAT THE CLASS HAS TO BOOKED AGAIN
-//  OR HAS BEEN CANCELLED
+    //  SEND MESSAGE TO ALL USERS IN STUDENT CLASS LIST SO THAT THEY KNOW THAT THE CLASS HAS TO BOOKED AGAIN
+    //  OR HAS BEEN CANCELLED
     const studentClassList = await StudentClassList.getStudentClassList()
     await User.deleteStudentClasses(studentClassList)
     await StudentClassList.deleteAllSeats()    //Add exception handling
     await Classes.resetOccupiedSeats()
-    res.json({message: "delete success"})
+    res.json({ message: "delete success" })
 })
 
 router.get('/getStudentClassList', async (req, res) => {
@@ -278,16 +278,29 @@ router.get('/getStudentClassList', async (req, res) => {
     const studentClassList = await StudentClassList.getStudentClassList()    //Add exception handling
     res.send(studentClassList)
 })
+
+router.get('/getDetailsForClassReset', async (req, res) => {
+    console.log('getDetailsForClassReset called')
+    const retDate = await Classes.getDate()
+    res.json({ date: retDate })
+})
+
+router.get('/resetClasses', async (req, res) => {
+    console.log('resetClasses called')
+    await Classes.resetForNewDay()
+    res.json({ message: "success" })
+})
+
 /////////////////////////////////////////////////////////////////////////////////
 //  QUIZ DETAILS
 
 router.post('/setUserQuizMarks', authenticate, async (req, res) => {
     try {
         const percentage = req.body.percentage
-        const currentUser = await User.findOne({_id: req.userID })
-        if(currentUser) {
+        const currentUser = await User.findOne({ _id: req.userID })
+        if (currentUser) {
             await currentUser.addLastQuizMarks(percentage)
-            res.status(201).json({ message: "Last quiz marks added to user"})
+            res.status(201).json({ message: "Last quiz marks added to user" })
         }
     } catch (error) {
         console.log(error)
@@ -299,20 +312,20 @@ module.exports = router
 /////////////////////////////////////////////////////////////////////////////////
 //  CHATROOMS in USER SCHEMA
 
-router.get('/getChatRoomList', authenticate, async(req, res) => {
+router.get('/getChatRoomList', authenticate, async (req, res) => {
     console.log('getChatRoomList called')
-    const currentUser = await User.findOne({_id: req.userID })
+    const currentUser = await User.findOne({ _id: req.userID })
     const chatRoomList = await currentUser.getChatRoomList()
     res.send(chatRoomList)
 })
 
-router.post('/addRoomNameToUsersChatRoomList', authenticate, async(req, res) => {
+router.post('/addRoomNameToUsersChatRoomList', authenticate, async (req, res) => {
     console.log('addRoomNameToUsersChatRoomList called')
-    const currentUser = await User.findOne({_id: req.userID })
+    const currentUser = await User.findOne({ _id: req.userID })
     const roomName = req.body.roomName
     await currentUser.addChatRoom(roomName)
-    let chatRoom = await ChatRooms.findOne({roomName})
-    if(chatRoom === null) {
+    let chatRoom = await ChatRooms.findOne({ roomName })
+    if (chatRoom === null) {
         chatRoom = new ChatRooms({ roomName })
         await chatRoom.save()
         console.log('new chat room created')
@@ -322,21 +335,21 @@ router.post('/addRoomNameToUsersChatRoomList', authenticate, async(req, res) => 
 /////////////////////////////////////////////////////////////////////////////////
 //  CHATROOMS
 
-router.post('/getChatsFromOneRoom', async(req, res) => {
+router.post('/getChatsFromOneRoom', async (req, res) => {
     console.log('getChatsFromOneRoom called')
     const roomName = req.body.room
-    const chatRoom = await ChatRooms.findOne({roomName})
+    const chatRoom = await ChatRooms.findOne({ roomName })
     let chats
-    if(chatRoom)
+    if (chatRoom)
         chats = await chatRoom.getChats()
     else
         chats = []
     res.send(chats)
 })
 
-router.post('/addChatToItsRoom', async(req, res) => {
+router.post('/addChatToItsRoom', async (req, res) => {
     const { room, author, message, time } = req.body
-    const chatRoom = await ChatRooms.findOne({roomName: room})
+    const chatRoom = await ChatRooms.findOne({ roomName: room })
     const chat = { author, message, time }
     await chatRoom.addChat(chat)
 })

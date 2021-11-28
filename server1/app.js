@@ -7,12 +7,9 @@ app.use(cookieParser())
 
 //Environment Variables
 const dotenv = require("dotenv")
-dotenv.config({ path: './config.env'})
+dotenv.config({ path: './config.env' })
 
 //Database
-// require("./db/conn")
-//Collection Users in database
-// const User = require('./model/userSchema')
 
 //Allows us to deal with json easily (read/write)
 app.use(express.json())
@@ -21,7 +18,7 @@ app.use(express.json())
 app.use(require('./router/auth'))
 
 //Heroku
-if ( process.env.NODE_ENV == "production"){
+if (process.env.NODE_ENV == "production") {
     app.use(express.static("client/build"))
 }
 

@@ -1,22 +1,22 @@
-import React, {useState,useEffect, useRef} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 function TodoForm(props) {
-    const[input, setInput] = useState("") ;
+    const [input, setInput] = useState("");
 
-     const inputRef = useRef(null) ;
+    const inputRef = useRef(null);
 
-     useEffect(() => {
-         inputRef.current.focus() 
-     })
+    useEffect(() => {
+        inputRef.current.focus()
+    })
 
-     const addTodoInDatabase = async(e) =>{
+    const addTodoInDatabase = async (e) => {
         e.preventDefault()
 
-        if ( input === "") {
+        if (input === "") {
             return;
         }
         const todo = {
-            text: input 
+            text: input
         }
 
         const res = await fetch('/todo/add', {
@@ -28,9 +28,9 @@ function TodoForm(props) {
         })
         const data = await res.json()
 
-        if(!data) {
+        if (!data) {
             console.log("some error in fetching todo list")
-        } else {    
+        } else {
             props.onSubmit({
                 text: input
             })
@@ -39,20 +39,20 @@ function TodoForm(props) {
     }
 
     const handleChange = e => {
-        setInput(e.target.value) ;
+        setInput(e.target.value);
     }
     return (
         <form className='todo-form' onSubmit={addTodoInDatabase}>
-            
-            
-         <input 
-            type='text'
-            placeholder = 'Add a todo'
-            value={input}
-            name='text'
-            onChange={handleChange}
-            ref={inputRef}
-            className='todo-input'/>
+
+
+            <input
+                type='text'
+                placeholder='Add a todo'
+                value={input}
+                name='text'
+                onChange={handleChange}
+                ref={inputRef}
+                className='todo-input' />
             <button className='todo-button'>Add todo</button>
         </form>
     )

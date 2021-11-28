@@ -25,7 +25,7 @@ const Questions = () => {
         setLoading(true);
         try {
 
-           
+
             const url = `https://opentdb.com/api.php?amount=${no}&category=${cat}&difficulty=${dif}&type=multiple`;
             // console.log(url);
             const { data } = await axios.get(url);
@@ -46,7 +46,7 @@ const Questions = () => {
     useEffect(() => {
 
         fetchQuizData();
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, []);
 
     const getAnswer = (ans) => {
@@ -59,7 +59,7 @@ const Questions = () => {
     }
 
     const showResult = () => {
-        if (!questions[curQuestionNo].userAnswer ) {
+        if (!questions[curQuestionNo].userAnswer) {
             alert('please select one answer');
             return false;
         }
@@ -87,9 +87,9 @@ const Questions = () => {
                     <div>
                         {questions.length > 0 && (
                             <>
-                                <Card 
-                                style={{marginLeft:'2rem' , marginTop:'5rem', marginRight:'2rem', backgroundColor:'#EEEEEE'}}
-                                className='questionContent'>
+                                <Card
+                                    style={{ marginLeft: '2rem', marginTop: '5rem', marginRight: '2rem', backgroundColor: '#EEEEEE' }}
+                                    className='questionContent'>
                                     <div className='question'>
                                         <div className='questionText' dangerouslySetInnerHTML={createMarkup(questions[curQuestionNo].question)}>
                                         </div>
@@ -113,7 +113,7 @@ const Questions = () => {
 
                                         <div>
                                             <Button variant='success'
-                                                
+
                                                 style={{ float: 'right' }}
                                                 onClick={questions.length === curQuestionNo + 1 ? showResult : nextQuestion}
                                             > {questions.length === curQuestionNo + 1 ? 'Show Result' : 'Next Question'} </Button>
@@ -129,10 +129,10 @@ const Questions = () => {
                     </div>
                 ) : (
                     <ShowResult
-                    questions={questions}
-                    createMarkup={createMarkup}
-                    reset={reset}
-                  />
+                        questions={questions}
+                        createMarkup={createMarkup}
+                        reset={reset}
+                    />
                 )}
 
         </div>

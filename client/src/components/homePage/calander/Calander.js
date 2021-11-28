@@ -6,9 +6,9 @@ const Calander = () => {
   let date = newDate.getDate();
   let year = newDate.getFullYear();
 
-  var dayNames = ["Sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  var dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   let day = dayNames[newDate.getDay()];
-   
+
   var monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"];
   let month = monthNames[newDate.getMonth()];
@@ -21,7 +21,7 @@ const Calander = () => {
           <blockquote className="blockquote mb-0">
 
             <center><b>{date}</b></center>
-             
+
 
           </blockquote>
         </Card.Body>

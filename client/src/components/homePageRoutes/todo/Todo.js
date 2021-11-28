@@ -1,20 +1,20 @@
 import React from 'react'
-import {RiCloseCircleLine} from 'react-icons/ri'
+import { RiCloseCircleLine } from 'react-icons/ri'
 
 
-function Todo({todos, removeTodo}) {
+function Todo({ todos, removeTodo }) {
     return todos.map((todo, index) => (
         <div className='todo-row' key={index}>
-        <div> {todo.text} </div>
+            <div> {todo.text} </div>
 
-          <div className='icons'>
-           <RiCloseCircleLine
-           onClick={()=> removeTodo(todo)}
-           className='delete-icon'
-           />
-           
-          </div>
-    </div>
+            <div className='icons'>
+                <RiCloseCircleLine
+                    onClick={() => removeTodo(todo)}
+                    className='delete-icon'
+                />
+
+            </div>
+        </div>
     ));
 }
 

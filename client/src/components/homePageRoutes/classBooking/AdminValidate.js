@@ -49,7 +49,7 @@ const AdminValidate = () => {
 
     return (
         <>
-        { !verifiedAdmin ? <CheckAdmin /> : <Admin/>}
+            {!verifiedAdmin ? <CheckAdmin /> : <Admin />}
         </>
     )
 }

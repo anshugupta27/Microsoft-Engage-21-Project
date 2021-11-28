@@ -25,16 +25,16 @@ const chatRoomSchema = new mongoose.Schema({
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-chatRoomSchema.methods.addChat = async function(chat) {
+chatRoomSchema.methods.addChat = async function (chat) {
     try {
-            this.chats = this.chats.concat(chat)
-            await this.save()
+        this.chats = this.chats.concat(chat)
+        await this.save()
     } catch (error) {
         console.log(error)
     }
 }
 
-chatRoomSchema.methods.getChats = function() {
+chatRoomSchema.methods.getChats = function () {
     try {
         console.log('getChats called')
         return this.chats

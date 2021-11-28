@@ -1,14 +1,14 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Card from 'react-bootstrap/Card'
 
 const LastQuizMarks = (quizAttempted) => {
   const [lastQuizMarks, setLastQuizMarks] = useState(0)
 
   useEffect(() => {
-    if(quizAttempted)
+    if (quizAttempted)
       setLastQuizMarks(JSON.parse(localStorage.getItem('lastQuizMarks')))
-      // eslint-disable-next-line
-  },[])
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <>
@@ -22,7 +22,7 @@ const LastQuizMarks = (quizAttempted) => {
           </blockquote>
         </Card.Body>
         <Card.Header style={{ backgroundColor: '#EEEEEE' }}>
-            <center><b>Last Quiz Percentage</b></center>
+          <center><b>Last Quiz Percentage</b></center>
         </Card.Header>
 
       </Card>

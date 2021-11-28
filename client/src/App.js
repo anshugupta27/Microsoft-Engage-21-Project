@@ -23,48 +23,48 @@ import AdminValidate from './components/homePageRoutes/classBooking/AdminValidat
 import QuestionCategory from './components/homePageRoutes/quiz/QuestionCategory'
 import Questions from './components/homePageRoutes/quiz/Questions'
 import TodoList from './components/homePageRoutes/todo/TodoList';
-import ClientApp from './components/homePageRoutes/chatClient/App' ;
+import ClientApp from './components/homePageRoutes/chatClient/App';
 //Environment Variables
 const dotenv = require("dotenv")
-dotenv.config({ path: './config.env'})
+dotenv.config({ path: './config.env' })
 export const UserContext = createContext()
 
 const Routing = () => {     //jsx Component
   return (
     <Routes>
       {/* Navbar Routes */}
-      <Route exact path="/" element={<Home/>}/>
-      <Route path='/about' element={<About/>}/>
-      <Route path='/contact' element={<Contact/>}/>
-      <Route path='/login' element={<Login/>}/>
-      <Route path='/logout' element={<Logout/>}/>
-      <Route path='/signup' element={<Signup/>}/>
+      <Route exact path="/" element={<Home />} />
+      <Route path='/about' element={<About />} />
+      <Route path='/contact' element={<Contact />} />
+      <Route path='/login' element={<Login />} />
+      <Route path='/logout' element={<Logout />} />
+      <Route path='/signup' element={<Signup />} />
 
       {/* Home Page Routes */}
-      <Route path='/notes' element={<NotesApp/>} />
-      <Route path='/SubjectPreference' element={<SubjectPreference/>} />
-      <Route path='/ClassBooking' element={<ClassBooking/>}/>
-      <Route path='/quiz' element={<QuestionCategory/>}/>
-      <Route path='/q/:cat/:dif/:no' element={<Questions/>}/>
-      <Route path='/taskManager' element={<TodoList/>}/>
-      <Route path='/chat' element={<ClientApp/>}  />
-      <Route path='/adminValidate' element={<AdminValidate/>}/>
+      <Route path='/notes' element={<NotesApp />} />
+      <Route path='/SubjectPreference' element={<SubjectPreference />} />
+      <Route path='/ClassBooking' element={<ClassBooking />} />
+      <Route path='/quiz' element={<QuestionCategory />} />
+      <Route path='/q/:cat/:dif/:no' element={<Questions />} />
+      <Route path='/taskManager' element={<TodoList />} />
+      <Route path='/chat' element={<ClientApp />} />
+      <Route path='/adminValidate' element={<AdminValidate />} />
 
-      <Route path='*' element={<ErrorPage/>}/>
+      <Route path='*' element={<ErrorPage />} />
     </Routes>
   )
 }
 
 const App = () => {
   let [state, dispatch] = useReducer(reducer, initialState)   //initialState is the initial value of the state
-                                                                //dispatch will trigger action method in reducer
-                                                                //whenever there is a change in dispatch, then the action method in reducer will be used to change the state
-  
+  //dispatch will trigger action method in reducer
+  //whenever there is a change in dispatch, then the action method in reducer will be used to change the state
+
   return (
     <>
-      <UserContext.Provider value={{state, dispatch}}>    {/* Here we are pasing state and dispatch to all our components */}
-      <Navbar/>
-      <Routing/>
+      <UserContext.Provider value={{ state, dispatch }}>    {/* Here we are pasing state and dispatch to all our components */}
+        <Navbar />
+        <Routing />
       </UserContext.Provider>
     </>
   )

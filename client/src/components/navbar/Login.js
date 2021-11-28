@@ -36,9 +36,9 @@ const Login = () => {
         window.alert("Invalid Credentials")
         console.log("Invalid Credentials")
       } else {
-        //changing the state using context api
+       
         dispatch({ type: "USER", payload: true })    //type => type of action
-        //payload => extra info/message we want to pass
+        
         localStorage.setItem('userVerified', JSON.stringify(true))
         window.alert("Login Successful")
         navigate("/")
@@ -78,7 +78,7 @@ const Login = () => {
                     <button className="btn btn-outline-light btn-lg px-5" type="submit" onClick={loginUser}>Login</button>
                     <div>
                       <br />
-              New User ? <br />
+                      New User ? <br />
 
                       <NavLink to="/signup" className="signup-image-link">Create an Account</NavLink>
                     </div>

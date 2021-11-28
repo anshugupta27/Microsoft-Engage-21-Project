@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Chat from '../chat/Chat'
 import Notes from '../notes/Notes'
-// import VideoCall from '../videoCall/VideoCall'
 import ToolTip from "../tooltip/Tooltip"
 import Calander from '../calander/Calander'
 import BookClass from '../bookClass/BookClass'

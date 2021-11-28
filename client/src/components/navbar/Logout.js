@@ -1,5 +1,5 @@
-import React,{useEffect, useContext} from 'react'
-import {useNavigate} from 'react-router-dom'
+import React, { useEffect, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../../App'
 
 const Logout = () => {
@@ -20,9 +20,9 @@ const Logout = () => {
         }).then((res) => {
             localStorage.clear()
             localStorage.setItem('userVerified', JSON.stringify(false))
-            dispatch({ type: "USER", payload: false})
+            dispatch({ type: "USER", payload: false })
             navigate('/login', { replace: true })
-            if(res.status !== 200) {
+            if (res.status !== 200) {
                 const error = new Error(res.error)
                 throw error
             }
